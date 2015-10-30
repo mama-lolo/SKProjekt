@@ -1,0 +1,63 @@
+package algorythms;
+
+import java.util.Collection;
+import java.util.Vector;
+
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
+
+public class BinaryTreeSort extends AbstractSortingAlgorythm{
+
+	@Override
+	public void sort(Comparable[] data) {
+		//TODO Selber machen
+		Multimap<Comparable,Comparable> sortingTree = ArrayListMultimap.create();
+		for(Comparable x :data){
+
+			System.out.println(x.getClass());
+			sortingTree.put(x, x);
+		}
+		Collection<Comparable> temp = sortingTree.values();
+		int i =0;
+		for(Comparable c:temp){
+			data[i]=c;
+			i++;
+		}
+	}
+
+	public void test(){};
+	@Override
+	public void sort(Comparable[] data, Vector<Comparable[]> progress) {
+		Multimap<Comparable,Comparable> sortingTree = ArrayListMultimap.create();
+		for(int j = 0;j<data.length;j++){
+			sortingTree.put(data[j], data[j]);
+			progress.addElement(currentData(sortingTree,data));
+		}
+		Collection<Comparable> temp = sortingTree.values();
+		int i =0;
+		for(Comparable c:temp){
+			data[i]=c;
+			i++;
+		}
+		
+	}
+
+	private Integer[] currentData(Multimap<Comparable, Comparable> sortingTree,Comparable[]data) {
+		Comparable[] tempArrayValues=new Integer[data.length];
+		Collection<Comparable> tempValues = sortingTree.values();
+		//InsertTreeData
+		int i =0;
+		for(Comparable c:tempValues){
+			System.out.println(c.getClass());
+			tempArrayValues[i]=c;
+			i++;
+		}
+		while(i<data.length){
+			
+		tempArrayValues[i]=data[i];
+			i++;
+		}
+		return (Integer[]) tempArrayValues;
+	}
+
+}
