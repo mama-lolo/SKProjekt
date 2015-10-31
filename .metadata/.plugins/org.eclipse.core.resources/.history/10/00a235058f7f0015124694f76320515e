@@ -1,0 +1,10 @@
+package util;
+/**
+ * DataSet is one arraystate of the 
+ * @author Malte
+ *
+ */
+public class DataSet {
+	public int[][]data;
+	public int[]changePositions;
+}

@@ -10,8 +10,10 @@ import static org.lwjgl.opengl.GL11.glOrtho;
 import static org.lwjgl.opengl.GL11.glVertex2d;
 
 import java.awt.font.GlyphVector;
+import java.awt.peer.WindowPeer;
 import java.util.Random;
 import java.util.Vector;
+import java.util.concurrent.LinkedBlockingDeque;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
@@ -23,6 +25,7 @@ import algorythms.AbstractSortingAlgorythm;
 import algorythms.BubbleSort;
 import algorythms.GnomeSort;
 import algorythms.SelectionSort;
+import util.DataSet;
  
 public class MainDisplay{
 
@@ -50,28 +53,38 @@ public void start(int amountValues) {
       //Init-Algorythm
               randomizeData();
               
-              Vector progress=new Vector();
+              LinkedBlockingDeque<DataSet> progress=new LinkedBlockingDeque<>();
               
-              AbstractSortingAlgorythm x = new GnomeSort();
+              AbstractSortingAlgorythm x = new BubbleSort();
               
               x.sort(data, progress);
               int durchlauf =0;
               boolean done = false;
+              DataSet WIPDataSet=progress.poll();
+              boolean workingonDataSet = true;
     while (!Display.isCloseRequested()&&!done) {
-        GL11.glClearColor(0.4f,0.6f,0.2f,1.0f);
+        GL11.glClearColor(0.5f,0.5f,0f,1.0f);
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
         glBegin(GL11.GL_QUADS);
         try{
-        normalDarstellung((Integer[])progress.elementAt(durchlauf));
-        durchlauf+=(int)(Math.log(amountValues)*amountValues/1000)+1;
-        }catch(ArrayIndexOutOfBoundsException e ){
+        	if(!workingonDataSet){
+        	WIPDataSet=progress.poll();
+        	}
+        	if(!WIPDataSet.changePositions.isEmpty()){
+        	normalDarstellung(WIPDataSet.data,(int)WIPDataSet.changePositions.poll());
+        	}else{
+        		workingonDataSet=false;
+        	}
+        	
+        //durchlauf+=(int)(Math.log(amountValues)*amountValues/1000)+1;
+        }catch(java.lang.NullPointerException e ){
         	done = true;
         	durchlauf=progress.size()-1;
         	System.out.print("Reached the arrayend.");
-        	normalDarstellung((Integer[])progress.elementAt(durchlauf));
         }
         glEnd();
         Display.update();
+        Display.sync(15);
                 
         //Events
         while(Keyboard.next()) {
@@ -111,16 +124,24 @@ public void start(int amountValues) {
 	public static void main(String[] argv) {
         MainDisplay displayExample = new MainDisplay();
     
-        displayExample.start(1000);
+        displayExample.start(100);
     }
     
 
-    public static void normalDarstellung(Integer[]data){
-        for(int i = 0; i<data.length;i++){            
-            glVertex2d((i+1)*BREITE/data.length, HOEHE-data[i]*HOEHE/max);
+    public static void normalDarstellung(Object[] data,int changed){
+    	
+    	
+        for(int i = 0; i<data.length;i++){
+
+        	GL11.glColor3f(0, 0.5f, 0.5f);
+        	if(i==changed){
+        		GL11.glColor3f(0.5f, 0, 0.5f);
+        		
+        	}
+            glVertex2d((i+1)*BREITE/data.length, HOEHE-(int)(data[i])*HOEHE/max);
             glVertex2d((i+1)*BREITE/data.length, HOEHE);
             glVertex2d(i*BREITE/data.length, HOEHE);
-            glVertex2d(i*BREITE/data.length, HOEHE-data[i]*HOEHE/max);
+            glVertex2d(i*BREITE/data.length, HOEHE-(int)(data[i])*HOEHE/max);
             
         }
     }

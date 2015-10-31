@@ -1,0 +1,18 @@
+package util;
+
+import java.util.concurrent.LinkedBlockingDeque;
+
+/**
+ * DataSet is one arraystate of the 
+ * @author Malte
+ *
+ */
+public class DataSet {
+	public int[]data;
+	public LinkedBlockingDeque<Integer> changePositions;
+	
+	public DataSet(int[]input){
+		data=input;
+		changePositions= new LinkedBlockingDeque<>();
+	}
+}

@@ -1,7 +1,8 @@
 package algorythms;
 
-import java.util.Vector;
 import java.util.concurrent.LinkedBlockingDeque;
+
+import util.DataSet;
 
 public class BubbleSort extends AbstractSortingAlgorythm {
 	
@@ -23,11 +24,16 @@ public class BubbleSort extends AbstractSortingAlgorythm {
 	public void sort(Comparable[] data,LinkedBlockingDeque<DataSet> progress){
 		int n = data.length;
 		  do{
+			  
 		    int newn = 1;
+		    DataSet temp = new DataSet(data);
 		    for (int i=0; i<n-1; ++i){
+		    	temp.changePositions.add(i);
+		    	temp.changePositions.add(i+1);
 		      if (data[i].compareTo(data[i+1])>0){
+		    	  progress.add(temp.clone());
 		        swap(data,i, i+1);
-		        progress.add(data.clone());
+		        temp= new DataSet(data);
 		        newn = i+1;
 		      }
 		    } 
