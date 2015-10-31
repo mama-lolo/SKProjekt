@@ -1,7 +1,6 @@
 package algorythms;
 
 import java.util.Vector;
-import java.util.concurrent.LinkedBlockingDeque;
 
 public class BubbleSort extends AbstractSortingAlgorythm {
 	
@@ -20,7 +19,7 @@ public class BubbleSort extends AbstractSortingAlgorythm {
 				  } while (n > 1);
 	}
 	
-	public void sort(Comparable[] data,LinkedBlockingDeque<DataSet> progress){
+	public void sort(Comparable[] data,Vector<Comparable[]> progress){
 		int n = data.length;
 		  do{
 		    int newn = 1;

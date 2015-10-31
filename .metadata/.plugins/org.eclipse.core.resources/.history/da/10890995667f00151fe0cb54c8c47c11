@@ -2,8 +2,6 @@ package algorythms;
 
 import java.util.Vector;
 
-import util.DataSet;
-
 public class GnomeSort extends AbstractSortingAlgorythm {
 
 	@Override
@@ -21,7 +19,7 @@ public class GnomeSort extends AbstractSortingAlgorythm {
 	}
 
 	@Override
-	public void sort(Comparable[] data, Vector<DataSet> progress) {
+	public void sort(Comparable[] data, Vector<Comparable[]> progress) {
 
 		for(int i = 1; i<data.length;i++){
 			int j = i;

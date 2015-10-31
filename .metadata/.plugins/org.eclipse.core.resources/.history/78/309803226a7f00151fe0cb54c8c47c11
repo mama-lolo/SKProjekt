@@ -2,8 +2,6 @@ package algorythms;
 
 import java.util.concurrent.LinkedBlockingDeque;
 
-import util.DataSet;
-
 public abstract class AbstractSortingAlgorythm {
 	
 	public abstract void sort(Comparable[] data);

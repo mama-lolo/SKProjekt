@@ -2,8 +2,6 @@ package algorythms;
 
 import java.util.Vector;
 
-import util.DataSet;
-
 public class GnomeSort extends AbstractSortingAlgorythm {
 
 	@Override
